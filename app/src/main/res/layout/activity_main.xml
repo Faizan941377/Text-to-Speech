@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorOffWhite"
+    tools:context=".textToSpeech.TextToSpeechActivity">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/toolbar_shape">
+
+        <ImageView
+            android:id="@+id/iv_text_to_speech_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/ico_back"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Text To Speech"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bacground"
+                android:elevation="4dp"
+                android:weightSum="3">
+
+
+                <Spinner
+                    android:id="@+id/idFromSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:padding="3dp" />
+
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ico_exchange" />
+
+
+                <Spinner
+                    android:id="@+id/idToSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:padding="3dp" />
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="8dp"
+                android:padding="5dp"
+                app:boxBackgroundMode="none"
+                app:hintEnabled="false">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/idEditSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bacground"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Enter Text "
+                    android:importantForAutofill="no"
+                    android:inputType="textImeMultiLine|textMultiLine"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/lightGray"
+                    android:textSize="19dp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="18dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/idIVMic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ico_mics"
+                    android:backgroundTint="@color/color_facebook"
+                    android:layout_marginRight="18dp"
+                    android:padding="15dp" />
+
+                <ImageView
+                    android:id="@+id/iv_speak_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/ico_volume_up"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="15dp" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/idBtnTranslation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/color_orange"
+                android:text="Translate"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="19dp" />
+
+
+            <TextView
+                android:id="@+id/idTranslatedTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bacground"
+                android:elevation="3dp"
+                android:letterSpacing="0.03"
+                android:padding="16sp"
+                android:text="Translated Text Here"
+                android:textAlignment="center"
+                android:textColor="@color/color_facebook"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Or"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Say Something"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

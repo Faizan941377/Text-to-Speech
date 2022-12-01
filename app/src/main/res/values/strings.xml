@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Text to Speech</string>
+    <string name="text_to_speech">Text to Speech</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="take_image">Take Image</string>
+    <string name="enter_your_text">Enter your Text</string>
+    <string name="spinner_title" />
+</resources>

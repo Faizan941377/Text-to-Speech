@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "653586913116",
+    "project_id": "text-to-speech-49ab2",
+    "storage_bucket": "text-to-speech-49ab2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653586913116:android:180a2ac1461718a5b71399",
+        "android_client_info": {
+          "package_name": "com.nextsuntech.texttospeech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653586913116-62ppa5qg49mmgaoigto8ovtbvtbu8nfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6szz1RFKlBBWYUm8nQnyIKQu9dxfgrWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653586913116-62ppa5qg49mmgaoigto8ovtbvtbu8nfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
