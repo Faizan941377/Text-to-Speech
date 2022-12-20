@@ -5,9 +5,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,16 +43,21 @@ public class MainActivity extends AppCompatActivity {
     Spinner toSP;
     TextInputEditText sourceText;
     ImageView micIV;
+    ImageView pauseBT;
+    ImageView playBT;
     MaterialButton translationBT;
     TextView translationTV;
     ImageView speakTextIV;
     TextToSpeech textToSpeech;
 
-    String[] fromLanguages = {"From", "English", "Arabic", "Urdu", "Hindi", "German"};
-    String[] toLanguages = {"To", "English", "Arabic", "Urdu", "Hindi", "German"};
+    String[] fromLanguages = {"From", "English", "Arabic", "Urdu", "Hindi", "German", "Chinese", "Spanish"
+            , "French", "Bengali", "Russian", "Portuguese"};
+    String[] toLanguages = {"To", "English", "Arabic", "Urdu", "Hindi", "German", "Chinese", "Spanish"
+            , "French", "Bengali", "Russian", "Portuguese"};
 
     private static final int REQUEST_PERMISSION_CODE = 1;
-    int languageCode, fromLanguageCode, toLanguageCode = 0;
+    int fromLanguageCode, toLanguageCode = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         translationBT = findViewById(R.id.idBtnTranslation);
         translationTV = findViewById(R.id.idTranslatedTV);
         speakTextIV = findViewById(R.id.iv_speak_text);
+        pauseBT = findViewById(R.id.bt_pause);
+        playBT = findViewById(R.id.bt_play);
 
 
         fromSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -89,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         ArrayAdapter toAdapter = new ArrayAdapter(this, R.layout.spinner_item, toLanguages);
         toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -124,6 +139,15 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please select the language to translate", Toast.LENGTH_SHORT).show();
                 } else {
                     translateText(fromLanguageCode, toLanguageCode, sourceText.getText().toString());
+                }
+            }
+        });
+        //pause the tts engine and text
+        pauseBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (textToSpeech.isSpeaking()) {
+                    playBT.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -173,10 +197,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //String[] fromLanguages = {"From","English","Arabic","Urdu","Hindi","German"};
+    //String[] toLanguages = {"To", "English", "Arabic", "Urdu", "Hindi", "German","Chines ","Spanish"
+    //,"French","Bengali","Russian","Portuguese "};
+
     private int getLanguageCode(String language) {
 
-        Integer languageCode = 0;
+        int languageCode = 0;
         if ("English".equals(language)) {
             languageCode = FirebaseTranslateLanguage.EN;
         } else if ("Arabic".equals(language)) {
@@ -187,43 +213,109 @@ public class MainActivity extends AppCompatActivity {
             languageCode = FirebaseTranslateLanguage.GA;
         } else if ("Hindi".equals(language)) {
             languageCode = FirebaseTranslateLanguage.HI;
-        } else {
-            languageCode = 0;
+        } else if ("Chinese".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.ZH;
+        } else if ("Spanish".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.ES;
+        } else if ("French".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.FR;
+        } else if ("Bengali".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.BN;
+        } else if ("Russian".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.RU;
+        } else if ("Portuguese".equals(language)) {
+            languageCode = FirebaseTranslateLanguage.PT;
         }
 
         speakTextIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = translationTV.getText().toString();
-                if (text.isEmpty()) {
-                    translationTV.setError("Please enter text to speech!");
-                } else {
-                    textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                        @Override
-                        public void onInit(int status) {
-                            if (status == TextToSpeech.SUCCESS) {
-                                if (language.equals("English")) {
-                                    textToSpeech.setLanguage(new Locale("English"));
-                                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
-                                } else if (language.equals("Arabic")) {
-                                    textToSpeech.setLanguage(new Locale("ar-QA"));
-                                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
-                                } else if (language.equals("Urdu")) {
-                                    textToSpeech.setLanguage(new Locale("Urdu"));
-                                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
-                                } else if (language.equals("Hindi")) {
-                                    textToSpeech.setLanguage(new Locale("hin"));
-                                    textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
-                                }
+                textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int i) {
+                        String text = translationTV.getText().toString();
+                        if (text.isEmpty()) {
+                            translationTV.setError("Please enter text to speech!");
+                        } else {
+                            pauseBT.setVisibility(View.VISIBLE);
+
+                            if (language.equals("English")) {
+                                textToSpeech.setLanguage(new Locale("EN"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Arabic")) {
+                                textToSpeech.setLanguage(new Locale("ar-sa"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Urdu")) {
+                                textToSpeech.setLanguage(new Locale("UR"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Hindi")) {
+                                textToSpeech.setLanguage(new Locale("HI"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("German")) {
+                                textToSpeech.setLanguage(new Locale("DE"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Chinese")) {
+                                textToSpeech.setLanguage(new Locale("ZH"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Spanish")) {
+                                textToSpeech.setLanguage(new Locale("ES"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("French")) {
+                                textToSpeech.setLanguage(new Locale("AF"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Bengali")) {
+                                textToSpeech.setLanguage(new Locale("BN"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Russian")) {
+                                textToSpeech.setLanguage(new Locale("RU"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Portuguese")) {
+                                textToSpeech.setLanguage(new Locale("PT"));
+                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             }
+
                         }
-                    });
-                }
+                    }
+                });
+
+                textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+                        Log.i("TTS", "utterance started");
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+                        Log.i("TTS", "utterance done");
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+                        Log.i("TTS", "utterance error");
+                    }
+
+
+                    @Override
+                    public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                        // onRangeStart (and all UtteranceProgressListener callbacks) do not run on main thread
+                        // ... so we explicitly manipulate views on the main thread:
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String translate = translationTV.getText().toString();
+                                Spannable textWithHighlights = new SpannableString(translate);
+
+                                textWithHighlights.setSpan(new BackgroundColorSpan(Color.YELLOW), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                translationTV.setText(textWithHighlights);
+                            }
+                        });
+                    }
+                });
             }
+
         });
-
         return languageCode;
-
-
     }
+
 }
+

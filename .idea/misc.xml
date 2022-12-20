@@ -5,16 +5,20 @@
       <map>
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable-v21/btn_shap.xml" value="0.151" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/bacground.xml" value="0.1525" />
+        <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/background.xml" value="0.1525" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/btn_shap.xml" value="0.151" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/edittext_shape.xml" value="0.151" />
+        <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1525" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/spinner_style.xml" value="0.1525" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/drawable/toolbar_shape.xml" value="0.145" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_take_image.xml" value="0.20416666666666666" />
+        <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_test.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/activity_text_to_speech.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/color_spinner_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/file_name_dialog.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/spinner_dropdown_layout.xml" value="0.203125" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/spinner_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Professional Hub/Text to Speech/Code/app/src/main/res/layout/spinner_layout.xml" value="0.20416666666666666" />

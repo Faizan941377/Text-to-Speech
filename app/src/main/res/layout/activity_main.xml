@@ -49,7 +49,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/bacground"
+                android:background="@drawable/background"
                 android:elevation="4dp"
                 android:weightSum="3">
 
@@ -101,7 +101,7 @@
                     android:id="@+id/idEditSource"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bacground"
+                    android:background="@drawable/background"
                     android:ems="10"
                     android:gravity="top"
                     android:hint="Enter Text "
@@ -115,30 +115,61 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginRight="18dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/bt_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_download"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
+
+
+                <ImageView
+                    android:id="@+id/bt_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_play"
+                    android:visibility="visible"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
+
+                <ImageView
+                    android:id="@+id/bt_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_pause"
+                    android:visibility="visible"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
 
                 <ImageView
                     android:id="@+id/idIVMic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
                     android:background="@drawable/ico_mics"
                     android:backgroundTint="@color/color_facebook"
-                    android:layout_marginRight="18dp"
-                    android:padding="15dp" />
+                    android:padding="20dp" />
 
                 <ImageView
                     android:id="@+id/iv_speak_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/ico_volume_up"
                     android:backgroundTint="@color/color_facebook"
-                    android:padding="15dp" />
+                    android:padding="20dp" />
 
 
             </LinearLayout>
@@ -163,7 +194,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/bacground"
+                android:background="@drawable/background"
                 android:elevation="3dp"
                 android:letterSpacing="0.03"
                 android:padding="16sp"
@@ -173,30 +204,7 @@
                 android:textSize="16sp"
                 android:visibility="gone" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Or"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Say Something"
-                android:textAlignment="center"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp" />
-
-
         </LinearLayout>
-
 
     </ScrollView>
 

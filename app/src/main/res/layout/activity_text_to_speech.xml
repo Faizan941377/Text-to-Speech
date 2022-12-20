@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/colorOffWhite"
     tools:context=".textToSpeech.TextToSpeechActivity">
 
     <RelativeLayout
@@ -33,110 +33,181 @@
 
     </RelativeLayout>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar">
 
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background"
+                android:elevation="4dp"
+                android:weightSum="3">
+
+
+                <Spinner
+                    android:id="@+id/idFromSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:padding="3dp" />
+
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ico_exchange" />
+
+
+                <Spinner
+                    android:id="@+id/idToSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:padding="3dp" />
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="8dp"
+                android:padding="5dp"
+                app:boxBackgroundMode="none"
+                app:hintEnabled="false">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/idEditSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Enter Text "
+                    android:importantForAutofill="no"
+                    android:inputType="textImeMultiLine|textMultiLine"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/lightGray"
+                    android:textSize="19dp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/ico_drop_down"
-                android:backgroundTint="@color/color_orange" />
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
 
-            <Spinner
-                android:id="@+id/sp_select_lang"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/spinner_style"
-                android:entries="@array/Spinner_Items" />
+                <ImageView
+                    android:id="@+id/bt_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:visibility="gone"
+                    android:background="@drawable/ico_download"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
 
-        </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/bt_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_play"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/bt_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_pause"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/idIVMic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:background="@drawable/ico_mics"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
+
+                <ImageView
+                    android:id="@+id/iv_speak_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/ico_volume_up"
+                    android:backgroundTint="@color/color_facebook"
+                    android:padding="20dp" />
 
 
-        <RadioGroup
-            android:id="@+id/radiogroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16sp">
+            </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/rb_male"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/idBtnTranslation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/black"
-                android:text="Male Voice"
-                android:textSize="18dp"
-                android:buttonTint="@color/color_orange"/>
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/color_orange"
+                android:text="Translate"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="19dp" />
 
-            <RadioButton
-                android:id="@+id/rb_female"
+
+            <TextView
+                android:id="@+id/idTranslatedTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/radio1"
-                android:textColor="@color/black"
-                android:text="Female Voice"
-                android:textSize="18dp"
-                android:buttonTint="@color/color_orange"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background"
+                android:elevation="3dp"
+                android:letterSpacing="0.03"
+                android:padding="16sp"
+                android:text="Translated Text Here"
+                android:textAlignment="center"
+                android:textColor="@color/color_facebook"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
+        </LinearLayout>
 
-        </RadioGroup>
-
-
-        <EditText
-            android:id="@+id/et_text_to_speech"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edittext_shape"
-            android:gravity="top|start"
-            android:hint="@string/enter_your_text"
-            android:inputType="textMultiLine"
-            android:text="hi"
-            android:lines="8"
-            android:maxLines="10"
-            android:minLines="6"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:scrollbars="vertical"
-            android:textColor="@color/colorBlack"
-            android:textColorHint="@color/color_orange"
-            android:textSize="16sp" />
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_text_to_speech"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/btn_shap"
-            android:text="Speech"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp" />
-
-
-    </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

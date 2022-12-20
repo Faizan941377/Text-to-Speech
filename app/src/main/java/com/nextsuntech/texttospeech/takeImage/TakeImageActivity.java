@@ -42,7 +42,7 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
         takeImageIV = findViewById(R.id.iv_take_Image);
         openCameraBT = findViewById(R.id.bt_take_image_open_camera);
         getTextBT = findViewById(R.id.bt_take_img_get_text);
-        takeImageTextET = findViewById(R.id.et_take_img);
+        takeImageTextET = findViewById(R.id.et_text_to_speech);
 
 
         openCameraBT.setOnClickListener(this);

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter file name"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="@color/color_orange"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:hint="Enter File Name"
+        android:textColorHint="@color/colorGray"
+        android:paddingStart="15dp"
+        android:background="@drawable/background"
+        android:textColor="@color/colorBlack"
+        android:layout_margin="10dp"
+        android:id="@+id/et_file_name"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_file_name_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:text="Cancel"
+            android:backgroundTint="@color/color_orange"
+            android:layout_weight="1"
+            android:layout_marginRight="8dp"/>
+
+
+        <Button
+            android:id="@+id/bt_file_name_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="8dp"
+            android:text="Save"
+            android:backgroundTint="@color/color_orange"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
