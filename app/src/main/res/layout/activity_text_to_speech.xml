@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorOffWhite"
+    android:background="@color/white"
     tools:context=".textToSpeech.TextToSpeechActivity">
 
     <RelativeLayout
@@ -41,81 +41,106 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/background"
-                android:elevation="4dp"
-                android:weightSum="3">
+                android:layout_height="45dp"
+                android:orientation="horizontal">
 
 
-                <Spinner
-                    android:id="@+id/idFromSpinner"
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:padding="3dp" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/ico_drop_down" />
+
+                    <Spinner
+                        android:id="@+id/idFromSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:background="@drawable/spinner_style"
+                        android:padding="3dp" />
+
+                </RelativeLayout>
 
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:src="@drawable/ico_exchange" />
 
 
-                <Spinner
-                    android:id="@+id/idToSpinner"
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:padding="3dp" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/ico_drop_down" />
+
+
+                    <Spinner
+                        android:id="@+id/idToSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:background="@drawable/spinner_style"
+                        android:padding="3dp" />
+
+                </RelativeLayout>
 
 
             </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/idEditSource"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:elevation="8dp"
-                android:padding="5dp"
-                app:boxBackgroundMode="none"
-                app:hintEnabled="false">
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Enter Text "
+                android:importantForAutofill="no"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/lightGray"
+                android:textSize="19dp" />
 
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/idEditSource"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/background"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:hint="Enter Text "
-                    android:importantForAutofill="no"
-                    android:inputType="textImeMultiLine|textMultiLine"
-                    android:textColor="@color/colorBlack"
-                    android:textColorHint="@color/lightGray"
-                    android:textSize="19dp" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
@@ -127,65 +152,53 @@
                     android:id="@+id/bt_download"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="18dp"
-                    android:visibility="gone"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/ico_download"
-                    android:backgroundTint="@color/color_facebook"
-                    android:padding="20dp" />
-
-
-                <ImageView
-                    android:id="@+id/bt_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="18dp"
-                    android:background="@drawable/ico_play"
-                    android:backgroundTint="@color/color_facebook"
-                    android:padding="20dp"
-                    android:visibility="gone" />
+                    android:backgroundTint="@color/colorBackBlue"
+                    android:padding="18dp"
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/bt_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="18dp"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/ico_pause"
-                    android:backgroundTint="@color/color_facebook"
-                    android:padding="20dp"
+                    android:backgroundTint="@color/colorBackBlue"
+                    android:padding="18dp"
                     android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/idIVMic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="18dp"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/ico_mics"
-                    android:backgroundTint="@color/color_facebook"
-                    android:padding="20dp" />
+                    android:backgroundTint="@color/colorBackBlue"
+                    android:padding="18dp" />
 
                 <ImageView
                     android:id="@+id/iv_speak_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:background="@drawable/ico_volume_up"
-                    android:backgroundTint="@color/color_facebook"
-                    android:padding="20dp" />
+                    android:backgroundTint="@color/colorBackBlue"
+                    android:padding="18dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/idBtnTranslation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="16dp"
+                    android:backgroundTint="@color/color_orange_light"
+                    android:text="Translate"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="19dp" />
 
 
             </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/idBtnTranslation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:backgroundTint="@color/color_orange"
-                android:text="Translate"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="19dp" />
-
 
             <TextView
                 android:id="@+id/idTranslatedTV"

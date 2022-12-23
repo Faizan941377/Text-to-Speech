@@ -41,6 +41,7 @@
     <color name="profile_default_tint">#e0e0e0</color>
     <color name="tabLineColor">#7E7F80</color>
     <color name="color_orange">#ff7347</color>
+    <color name="color_orange_light">#FF8A00</color>
     <color name="color_lightblue">#24B4C6</color>
     <color name="color_facebook">#3b5998</color>
     <color name="color_blue">#004abd</color>

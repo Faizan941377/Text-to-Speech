@@ -62,7 +62,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
 
     Spinner fromSP;
     Spinner toSP;
-    TextInputEditText sourceText;
+    EditText sourceText;
     ImageView micIV;
     ImageView pauseBT;
     ImageView playBT;
@@ -179,7 +179,8 @@ public class TextToSpeechActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (textToSpeech.isSpeaking()) {
-                    playBT.setVisibility(View.VISIBLE);
+                    //playBT.setVisibility(View.VISIBLE);
+                    textToSpeech.stop();
                 }
             }
         });
