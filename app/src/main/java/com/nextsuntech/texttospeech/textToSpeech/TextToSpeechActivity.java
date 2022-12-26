@@ -65,15 +65,16 @@ public class TextToSpeechActivity extends AppCompatActivity {
     EditText sourceText;
     ImageView micIV;
     ImageView pauseBT;
-    ImageView playBT;
     ImageView downloadBT;
+    ImageView replayBT;
     MaterialButton translationBT;
     TextView translationTV;
     ImageView speakTextIV;
-    TextToSpeech textToSpeech;
+    TextToSpeech tts;
     private String mAudioFilename = "";
     private String mUtteranceID;
     public static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 101;
+
 
     String[] fromLanguages = {"From", "English", "Arabic", "Urdu", "Hindi", "German", "Chinese", "Spanish"
             , "French", "Bengali", "Russian", "Portuguese"};
@@ -97,8 +98,8 @@ public class TextToSpeechActivity extends AppCompatActivity {
         translationTV = findViewById(R.id.idTranslatedTV);
         speakTextIV = findViewById(R.id.iv_speak_text);
         pauseBT = findViewById(R.id.bt_pause);
-        playBT = findViewById(R.id.bt_play);
         downloadBT = findViewById(R.id.bt_download);
+        replayBT = findViewById(R.id.bt_replay);
 
         //select language spinners
         fromSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -178,11 +179,15 @@ public class TextToSpeechActivity extends AppCompatActivity {
         pauseBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (textToSpeech.isSpeaking()) {
+                if (tts.isSpeaking()) {
                     //playBT.setVisibility(View.VISIBLE);
-                    textToSpeech.stop();
+                    tts.stop();
+                    pauseBT.setVisibility(View.GONE);
+                    replayBT.setVisibility(View.VISIBLE);
                 }
             }
+
+
         });
 
         //download tts voice button
@@ -209,7 +214,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
                 saveBT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                             @Override
                             public void onInit(int i) {
                                 saveToAudioFile(translationTV.getText().toString());
@@ -251,11 +256,11 @@ public class TextToSpeechActivity extends AppCompatActivity {
 
     private void saveToAudioFile(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            textToSpeech.synthesizeToFile(text, null, new File(mAudioFilename), mUtteranceID);
+            tts.synthesizeToFile(text, null, new File(mAudioFilename), mUtteranceID);
         } else {
             HashMap<String, String> hm = new HashMap();
             hm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, mUtteranceID);
-            textToSpeech.synthesizeToFile(text, hm, mAudioFilename);
+            tts.synthesizeToFile(text, hm, mAudioFilename);
         }
         Toast.makeText(TextToSpeechActivity.this, "Saved to " + mAudioFilename, Toast.LENGTH_LONG).show();
     }
@@ -334,7 +339,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
         speakTextIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                     @Override
                     public void onInit(int i) {
                         String text = translationTV.getText().toString();
@@ -344,45 +349,45 @@ public class TextToSpeechActivity extends AppCompatActivity {
                             pauseBT.setVisibility(View.VISIBLE);
 
                             if (language.equals("English")) {
-                                textToSpeech.setLanguage(new Locale("EN"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("EN"));
+                                tts.speak(text, TextToSpeech.QUEUE_ADD, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Arabic")) {
-                                textToSpeech.setLanguage(new Locale("ar-sa"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("ar-sa"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Urdu")) {
-                                textToSpeech.setLanguage(new Locale("UR"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("UR"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Hindi")) {
-                                textToSpeech.setLanguage(new Locale("HI"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("HI"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("German")) {
-                                textToSpeech.setLanguage(new Locale("DE"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("DE"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Chinese")) {
-                                textToSpeech.setLanguage(new Locale("ZH"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("ZH"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Spanish")) {
-                                textToSpeech.setLanguage(new Locale("ES"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("ES"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("French")) {
-                                textToSpeech.setLanguage(new Locale("AF"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("AF"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Bengali")) {
-                                textToSpeech.setLanguage(new Locale("BN"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("BN"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Russian")) {
-                                textToSpeech.setLanguage(new Locale("RU"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("RU"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Portuguese")) {
-                                textToSpeech.setLanguage(new Locale("PT"));
-                                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                                tts.setLanguage(new Locale("PT"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             }
 
                         }
                     }
                 });
 
-                textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override
                     public void onStart(String utteranceId) {
                         Log.i("TTS", "utterance started");
@@ -417,6 +422,95 @@ public class TextToSpeechActivity extends AppCompatActivity {
                 });
             }
 
+        });
+
+        replayBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replayBT.setVisibility(View.GONE);
+                pauseBT.setVisibility(View.VISIBLE);
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int i) {
+                        String text = translationTV.getText().toString();
+                        if (text.isEmpty()) {
+                            translationTV.setError("Please enter text to speech!");
+                        } else {
+                            pauseBT.setVisibility(View.VISIBLE);
+
+                            if (language.equals("English")) {
+                                tts.setLanguage(new Locale("EN"));
+                                tts.speak(text, TextToSpeech.QUEUE_ADD, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Arabic")) {
+                                tts.setLanguage(new Locale("ar-sa"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Urdu")) {
+                                tts.setLanguage(new Locale("UR"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Hindi")) {
+                                tts.setLanguage(new Locale("HI"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("German")) {
+                                tts.setLanguage(new Locale("DE"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Chinese")) {
+                                tts.setLanguage(new Locale("ZH"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Spanish")) {
+                                tts.setLanguage(new Locale("ES"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("French")) {
+                                tts.setLanguage(new Locale("AF"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Bengali")) {
+                                tts.setLanguage(new Locale("BN"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Russian")) {
+                                tts.setLanguage(new Locale("RU"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            } else if (language.equals("Portuguese")) {
+                                tts.setLanguage(new Locale("PT"));
+                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
+                            }
+
+                        }
+                    }
+                });
+
+                tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+                        Log.i("TTS", "utterance started");
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+                        Log.i("TTS", "utterance done");
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+                        Log.i("TTS", "utterance error");
+                    }
+
+
+                    @Override
+                    public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                        // onRangeStart (and all UtteranceProgressListener callbacks) do not run on main thread
+                        // ... so we explicitly manipulate views on the main thread:
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String translate = translationTV.getText().toString();
+                                Spannable textWithHighlights = new SpannableString(translate);
+
+                                textWithHighlights.setSpan(new BackgroundColorSpan(Color.YELLOW), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                                translationTV.setText(textWithHighlights);
+                            }
+                        });
+                    }
+                });
+            }
         });
         return languageCode;
     }

@@ -156,7 +156,7 @@
                     android:background="@drawable/ico_download"
                     android:backgroundTint="@color/colorBackBlue"
                     android:padding="18dp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/bt_pause"
@@ -166,7 +166,19 @@
                     android:background="@drawable/ico_pause"
                     android:backgroundTint="@color/colorBackBlue"
                     android:padding="18dp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
+
+
+                <ImageView
+                    android:id="@+id/bt_replay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/ico_replay"
+                    android:backgroundTint="@color/colorBackBlue"
+                    android:padding="18dp"
+                    android:visibility="gone" />
+
 
                 <ImageView
                     android:id="@+id/idIVMic"
