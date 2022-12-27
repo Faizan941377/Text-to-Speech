@@ -20,6 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:background="@drawable/ico_back"
+            android:visibility="gone"
             android:padding="10dp" />
 
         <TextView
@@ -121,30 +122,76 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/idEditSource"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/background"
-                android:ems="10"
-                android:gravity="top"
-                android:hint="Enter Text "
-                android:importantForAutofill="no"
-                android:inputType="textImeMultiLine|textMultiLine"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/lightGray"
-                android:textSize="19dp" />
+                android:layout_marginTop="16dp">
 
+                <EditText
+                    android:id="@+id/idEditSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Enter Text "
+                    android:background="@drawable/background"
+                    android:importantForAutofill="no"
+                    android:inputType="textImeMultiLine|textMultiLine"
+                    android:paddingStart="15dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/lightGray"
+                    android:textSize="19dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/idIVMic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/ico_mics"
+                        android:backgroundTint="@color/colorBackBlue"
+                        android:padding="15dp"
+                        android:visibility="gone"/>
+
+
+                    <ImageButton
+                        android:id="@+id/iv_text_to_speech_camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/ico_camera"
+                        android:backgroundTint="@color/colorBackBlue"
+                        android:padding="15dp"/>
+
+
+                    <ImageView
+                        android:id="@+id/iv_speak_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ico_volume_up"
+                        android:backgroundTint="@color/colorBackBlue"
+                        android:padding="15dp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
+                android:gravity="end|center"
                 android:orientation="horizontal">
 
 
@@ -155,7 +202,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ico_download"
                     android:backgroundTint="@color/colorBackBlue"
-                    android:padding="18dp"
+                    android:padding="15dp"
                     android:visibility="gone" />
 
                 <ImageView
@@ -165,7 +212,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ico_pause"
                     android:backgroundTint="@color/colorBackBlue"
-                    android:padding="18dp"
+                    android:padding="15dp"
                     android:visibility="gone" />
 
 
@@ -176,26 +223,9 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ico_replay"
                     android:backgroundTint="@color/colorBackBlue"
-                    android:padding="18dp"
+                    android:padding="15dp"
                     android:visibility="gone" />
 
-
-                <ImageView
-                    android:id="@+id/idIVMic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/ico_mics"
-                    android:backgroundTint="@color/colorBackBlue"
-                    android:padding="18dp" />
-
-                <ImageView
-                    android:id="@+id/iv_speak_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ico_volume_up"
-                    android:backgroundTint="@color/colorBackBlue"
-                    android:padding="18dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/idBtnTranslation"

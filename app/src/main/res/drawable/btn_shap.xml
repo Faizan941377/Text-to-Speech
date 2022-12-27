@@ -14,8 +14,8 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"
-                android:endColor="@color/color_orange"
-                android:startColor="@color/color_orange"
+                android:endColor="@color/colorBackBlue"
+                android:startColor="@color/colorBackBlue"
                 android:type="sweep" />
             <corners android:radius="8dp" />
         </shape>

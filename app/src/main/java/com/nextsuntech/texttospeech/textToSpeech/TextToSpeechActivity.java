@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
 import android.Manifest;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.speech.tts.Voice;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -27,9 +25,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,15 +34,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
-import com.nextsuntech.texttospeech.MainActivity;
 import com.nextsuntech.texttospeech.R;
-import com.nextsuntech.texttospeech.test.TestActivity;
+import com.nextsuntech.texttospeech.takeImage.TakeImageActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,20 +48,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class TextToSpeechActivity extends AppCompatActivity {
 
     Spinner fromSP;
     Spinner toSP;
     EditText sourceText;
-    ImageView micIV;
+    ImageButton micIV;
     ImageView pauseBT;
     ImageView downloadBT;
     ImageView replayBT;
+    ImageButton cameraBT;
     MaterialButton translationBT;
     TextView translationTV;
     ImageView speakTextIV;
@@ -100,6 +93,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
         pauseBT = findViewById(R.id.bt_pause);
         downloadBT = findViewById(R.id.bt_download);
         replayBT = findViewById(R.id.bt_replay);
+        cameraBT = findViewById(R.id.iv_text_to_speech_camera);
 
         //select language spinners
         fromSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -151,6 +145,13 @@ public class TextToSpeechActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(TextToSpeechActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        cameraBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), TakeImageActivity.class));
             }
         });
 
@@ -303,9 +304,14 @@ public class TextToSpeechActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_PERMISSION_CODE) {
-            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            sourceText.setText(result.get(0));
+        try {
+
+            if (requestCode == REQUEST_PERMISSION_CODE) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                sourceText.setText(result.get(0));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -345,40 +351,51 @@ public class TextToSpeechActivity extends AppCompatActivity {
                         String text = translationTV.getText().toString();
                         if (text.isEmpty()) {
                             translationTV.setError("Please enter text to speech!");
+                            pauseBT.setVisibility(View.GONE);
                         } else {
-                            pauseBT.setVisibility(View.VISIBLE);
 
                             if (language.equals("English")) {
                                 tts.setLanguage(new Locale("EN"));
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.speak(text, TextToSpeech.QUEUE_ADD, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Arabic")) {
                                 tts.setLanguage(new Locale("ar-sa"));
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Urdu")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("UR"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Hindi")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("HI"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("German")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("DE"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Chinese")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("ZH"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Spanish")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("ES"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("French")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("AF"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Bengali")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("BN"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Russian")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("RU"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             } else if (language.equals("Portuguese")) {
+                                pauseBT.setVisibility(View.VISIBLE);
                                 tts.setLanguage(new Locale("PT"));
                                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UNIQUE_UTTERANCE_ID");
                             }

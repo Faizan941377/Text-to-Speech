@@ -7,12 +7,14 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,98 +22,83 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.nextsuntech.texttospeech.R;
+import com.nextsuntech.texttospeech.test.TestActivity;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TakeImageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView takeImageIV;
     AppCompatButton openCameraBT;
-    AppCompatButton getTextBT;
-    Bitmap imageBitmap;
-    EditText takeImageTextET;
+    TextView takeImageTextTV;
+    FirebaseVisionImage image;
+    ImageView backIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_image);
 
-
         takeImageIV = findViewById(R.id.iv_take_Image);
         openCameraBT = findViewById(R.id.bt_take_image_open_camera);
-        getTextBT = findViewById(R.id.bt_take_img_get_text);
-        takeImageTextET = findViewById(R.id.et_text_to_speech);
+        takeImageTextTV = findViewById(R.id.tv_text_to_speech);
+        backIV = findViewById(R.id.iv_take_Image_back);
 
 
         openCameraBT.setOnClickListener(this);
-        getTextBT.setOnClickListener(this);
-    }
+        backIV.setOnClickListener(this);
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //  if (resultCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-        Bundle extras = data.getExtras();
-        imageBitmap = (Bitmap) extras.get("data");
-        takeImageIV.setImageBitmap(imageBitmap);
-        // }
-    }
-
-    private void getTextFromImage() {
-      /*  FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
-        FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
-        firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-            @Override
-            public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                displayTextFromImage(firebaseVisionText);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(TakeImageActivity.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("Error", e.getMessage());
-            }
-        });*/
-    }
-
-    private void displayTextFromImage(FirebaseVisionText firebaseVisionText) {
-       /* List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
-        if (blockList.size() == 0) {
-            Toast.makeText(this, "No text Text Found in Image", Toast.LENGTH_SHORT).show();
-        } else {
-            for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
-                String text = block.getText();
-                takeImageTextET.setText(text);
-
-            }
-        }*/
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_take_image_open_camera:
-                dispatchTakePictureIntent();
-                takeImageTextET.setText("");
+                /*ImagePicker.Companion.with(this).start(101);*/
+                Intent i = new Intent();
+                i.setType("image/");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i, "select Image"), 101);
                 break;
-            case R.id.bt_take_img_get_text:
-                try {
-                    getTextFromImage();
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(this, "Please click picture first", Toast.LENGTH_SHORT).show();
-                }
+
+            case R.id.iv_take_Image_back:
+                finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) {
+            Uri uri = data.getData();
+            takeImageIV.setImageURI(uri);
+            try {
+                image = FirebaseVisionImage.fromFilePath(getApplicationContext(), data.getData());
+                FirebaseVisionTextRecognizer textRecognizer = FirebaseVision.getInstance()
+                        .getOnDeviceTextRecognizer();
+
+                textRecognizer.processImage(image)
+                        .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                            @Override
+                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                                takeImageTextTV.setText(firebaseVisionText.getText());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(TakeImageActivity.this, "AI is busy", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
