@@ -48,7 +48,6 @@
             android:id="@+id/iv_take_Image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@mipmap/ic_launcher"
             android:layout_below="@id/action_bar" />
 
 

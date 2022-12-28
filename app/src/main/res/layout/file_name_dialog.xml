@@ -6,13 +6,25 @@
     android:background="@color/colorWhite"
     android:padding="15dp">
 
-    <TextView
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/iv_file_name_dialog_close"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/ico_close"
+        android:padding="15dp"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/colorRed"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Enter file name"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         android:textSize="18dp"
-        android:textColor="@color/color_orange"
+        android:textColor="@color/colorBackBlue"
         android:textAlignment="center"/>
 
     <EditText
@@ -39,7 +51,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:text="Cancel"
-            android:backgroundTint="@color/color_orange"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorBackBlue"
             android:layout_weight="1"
             android:layout_marginRight="8dp"/>
 
@@ -51,7 +64,8 @@
             android:textColor="@color/colorWhite"
             android:layout_marginRight="8dp"
             android:text="Save"
-            android:backgroundTint="@color/color_orange"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorBackBlue"
             android:layout_weight="1"/>
 
 

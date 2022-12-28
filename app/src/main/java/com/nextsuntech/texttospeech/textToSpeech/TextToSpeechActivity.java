@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -137,7 +138,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ur");
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something to translate");
                 try {
                     startActivityForResult(intent, REQUEST_PERMISSION_CODE);
@@ -181,7 +182,6 @@ public class TextToSpeechActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (tts.isSpeaking()) {
-                    //playBT.setVisibility(View.VISIBLE);
                     tts.stop();
                     pauseBT.setVisibility(View.GONE);
                     replayBT.setVisibility(View.VISIBLE);
@@ -200,9 +200,17 @@ public class TextToSpeechActivity extends AppCompatActivity {
                 final EditText text = (EditText) view1.findViewById(R.id.et_file_name);
                 Button cancelBT = (Button) view1.findViewById(R.id.bt_file_name_cancel);
                 Button saveBT = (Button) view1.findViewById(R.id.bt_file_name_save);
+                ImageButton closeBT = (ImageButton) view1.findViewById(R.id.iv_file_name_dialog_close);
                 alert.setView(view1);
                 final AlertDialog alertDialog = alert.create();
                 alertDialog.setCanceledOnTouchOutside(false);
+
+                closeBT.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
 
                 cancelBT.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -222,29 +230,33 @@ public class TextToSpeechActivity extends AppCompatActivity {
                             }
                         });
 
-                        mUtteranceID = text.getText().toString();
-                        // Perform the dynamic permission request
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
-                        }
-
-                        // Create audio file location
-                        File f = new File(Environment.getExternalStorageDirectory(), "tts");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            try {
-                                Files.createDirectory(Paths.get(f.getAbsolutePath()));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                            }
+                        if (text.length() == 0) {
+                            text.setError("Please enter file name");
                         } else {
-                            f.mkdir();
-                            f.mkdirs();
-                            Toast.makeText(getApplicationContext(), f.getPath(), Toast.LENGTH_LONG).show();
+                            mUtteranceID = text.getText().toString();
+                            // Perform the dynamic permission request
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
+                            }
+
+                            // Create audio file location
+                            File f = new File(Environment.getExternalStorageDirectory(), "tts");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                try {
+                                    Files.createDirectory(Paths.get(f.getAbsolutePath()));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                f.mkdir();
+                                f.mkdirs();
+                                Toast.makeText(getApplicationContext(), f.getPath(), Toast.LENGTH_LONG).show();
+                            }
+                            mAudioFilename = f.getAbsolutePath() + "/" + mUtteranceID + ".mp3";
+                            alertDialog.dismiss();
                         }
-                        mAudioFilename = f.getAbsolutePath() + "/" + mUtteranceID + ".mp3";
-                        alertDialog.dismiss();
                     }
                 });
 
