@@ -51,7 +51,7 @@
             android:layout_below="@id/action_bar" />
 
 
-        <TextView
+        <EditText
             android:id="@+id/tv_text_to_speech"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

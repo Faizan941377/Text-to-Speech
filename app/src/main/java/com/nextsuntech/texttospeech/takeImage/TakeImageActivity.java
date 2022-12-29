@@ -33,7 +33,7 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
 
     ImageView takeImageIV;
     AppCompatButton openCameraBT;
-    TextView takeImageTextTV;
+    EditText takeImageTextTV;
     FirebaseVisionImage image;
     ImageView backIV;
 
