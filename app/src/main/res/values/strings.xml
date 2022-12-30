@@ -6,5 +6,7 @@
     <string name="enter_your_text">Enter your Text</string>
     <string name="spinner_title" />
     <string name="open_camera">Open Camera</string>
+    <string name="speed">Speed</string>
+    <string name="pitch">Pitch</string>
 
 </resources>

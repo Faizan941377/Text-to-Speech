@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.Manifest;
 import android.content.Intent;
@@ -28,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
@@ -64,6 +68,12 @@ public class TextToSpeechActivity extends AppCompatActivity {
     MaterialButton translationBT;
     TextView translationTV;
     ImageView speakTextIV;
+    MaterialButton showLayoutBT;
+    LinearLayout settingsLL;
+    TextView ttsSpeedPercentageTV;
+    TextView ttsPitchPercentageTV;
+    SeekBar ttsPitchSB;
+    SeekBar ttsSpeedSB;
     TextToSpeech tts;
     private String mAudioFilename = "";
     private String mUtteranceID;
@@ -90,11 +100,23 @@ public class TextToSpeechActivity extends AppCompatActivity {
         micIV = findViewById(R.id.idIVMic);
         translationBT = findViewById(R.id.idBtnTranslation);
         translationTV = findViewById(R.id.idTranslatedTV);
-        speakTextIV = findViewById(R.id.iv_speak_text);
+        speakTextIV = findViewById(R.id.iv_tts);
         pauseBT = findViewById(R.id.bt_pause);
         downloadBT = findViewById(R.id.bt_download);
         replayBT = findViewById(R.id.bt_replay);
-        cameraBT = findViewById(R.id.iv_text_to_speech_camera);
+        cameraBT = findViewById(R.id.iv_tts_camera);
+        showLayoutBT = findViewById(R.id.bt_tts_show_ll);
+        settingsLL = findViewById(R.id.ll_tts_settings);
+        ttsSpeedPercentageTV = findViewById(R.id.tv_tts_speed_percentage);
+        ttsSpeedSB = findViewById(R.id.sb_tts_speed);
+        ttsPitchSB = findViewById(R.id.sb_tts_pitch);
+        ttsPitchPercentageTV = findViewById(R.id.tv_tts_pitch_percentage);
+
+
+        //getting text from camera activity
+        Intent intent = getIntent();
+        String getText = intent.getStringExtra("text");
+        sourceText.setText(getText);
 
         //select language spinners
         fromSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -130,6 +152,59 @@ public class TextToSpeechActivity extends AppCompatActivity {
         ArrayAdapter toAdapter = new ArrayAdapter(this, R.layout.spinner_item, toLanguages);
         toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toSP.setAdapter(toAdapter);
+
+
+        //seekBarSpeed control
+        ttsSpeedSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                ttsSpeedPercentageTV.setText(progress + "%");
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        //seekBar pitch control
+        ttsPitchSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
+                ttsPitchPercentageTV.setText("" + position + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        //linearlayout setting visibility
+        showLayoutBT.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ico_expend_more, 0, 0);
+        showLayoutBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (settingsLL.getVisibility() == View.GONE) {
+                    showLayoutBT.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ico_expend_less, 0, 0);
+                    settingsLL.setVisibility(View.VISIBLE);
+                } else if (settingsLL.getVisibility() == View.VISIBLE) {
+                    showLayoutBT.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ico_expend_more, 0, 0);
+                    settingsLL.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
         //button for recode a voice
@@ -267,6 +342,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
 
     }
 
+
     private void saveToAudioFile(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.synthesizeToFile(text, null, new File(mAudioFilename), mUtteranceID);
@@ -365,6 +441,15 @@ public class TextToSpeechActivity extends AppCompatActivity {
                             translationTV.setError("Please enter text to speech!");
                             pauseBT.setVisibility(View.GONE);
                         } else {
+
+                            //here we set the tts pitch and speed
+                            float speed = (float) ttsSpeedSB.getProgress() / 50;
+                            if (speed < 0.1) speed = 0.1f;
+                            tts.setSpeechRate(speed);
+
+                            float pitch = (float) ttsPitchSB.getProgress() / 50;
+                            if (pitch < 0.1) pitch = 0.1f;
+                            tts.setPitch(pitch);
 
                             if (language.equals("English")) {
                                 tts.setLanguage(new Locale("EN"));
@@ -466,6 +551,15 @@ public class TextToSpeechActivity extends AppCompatActivity {
                             translationTV.setError("Please enter text to speech!");
                         } else {
                             pauseBT.setVisibility(View.VISIBLE);
+                            //here we set the tts pitch and speed
+                            float speed = (float) ttsSpeedSB.getProgress() / 50;
+                            if (speed < 0.1) speed = 0.1f;
+                            tts.setSpeechRate(speed);
+
+                            float pitch = (float) ttsPitchSB.getProgress() / 50;
+                            if (pitch < 0.1) pitch = 0.1f;
+                            tts.setPitch(pitch);
+
 
                             if (language.equals("English")) {
                                 tts.setLanguage(new Locale("EN"));

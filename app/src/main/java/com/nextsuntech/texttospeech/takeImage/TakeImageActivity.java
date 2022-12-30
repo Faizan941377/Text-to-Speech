@@ -25,6 +25,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.nextsuntech.texttospeech.R;
 import com.nextsuntech.texttospeech.test.TestActivity;
+import com.nextsuntech.texttospeech.textToSpeech.TextToSpeechActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +34,7 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
 
     ImageView takeImageIV;
     AppCompatButton openCameraBT;
+    AppCompatButton translateTextBT;
     EditText takeImageTextTV;
     FirebaseVisionImage image;
     ImageView backIV;
@@ -46,10 +48,11 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
         openCameraBT = findViewById(R.id.bt_take_image_open_camera);
         takeImageTextTV = findViewById(R.id.tv_text_to_speech);
         backIV = findViewById(R.id.iv_take_Image_back);
-
+        translateTextBT = findViewById(R.id.bt_take_image_translate);
 
         openCameraBT.setOnClickListener(this);
         backIV.setOnClickListener(this);
+        translateTextBT.setOnClickListener(this);
 
     }
 
@@ -67,6 +70,13 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
             case R.id.iv_take_Image_back:
                 finish();
                 break;
+
+            case R.id.bt_take_image_translate:
+                String getText = takeImageTextTV.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), TextToSpeechActivity.class);
+                intent.putExtra("text",getText);
+                startActivity(intent);
+                finish();
         }
     }
 

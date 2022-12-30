@@ -91,6 +91,18 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="14sp" />
 
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_take_image_translate"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/btn_shap"
+                android:text="Translate Text"
+                android:layout_marginTop="10dp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
     </LinearLayout>
