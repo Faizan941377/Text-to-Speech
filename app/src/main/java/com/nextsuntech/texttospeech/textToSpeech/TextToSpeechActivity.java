@@ -14,6 +14,8 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -78,6 +80,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
     private String mAudioFilename = "";
     private String mUtteranceID;
     public static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 101;
+    boolean doubleBackToExitPressedOnce = false;
 
 
     String[] fromLanguages = {"From", "English", "Arabic", "Urdu", "Hindi", "German", "Chinese", "Spanish"
@@ -206,14 +209,13 @@ public class TextToSpeechActivity extends AppCompatActivity {
             }
         });
 
-
         //button for recode a voice
         micIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ur");
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "EN");
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something to translate");
                 try {
                     startActivityForResult(intent, REQUEST_PERMISSION_CODE);
@@ -228,6 +230,7 @@ public class TextToSpeechActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), TakeImageActivity.class));
+                finish();
             }
         });
 
@@ -636,5 +639,22 @@ public class TextToSpeechActivity extends AppCompatActivity {
             }
         });
         return languageCode;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Double Click to Exit", Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }

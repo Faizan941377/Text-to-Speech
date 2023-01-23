@@ -132,11 +132,13 @@
                 android:gravity="top"
                 android:hint="Enter Your Text "
                 android:importantForAutofill="no"
-                android:inputType="textImeMultiLine|textMultiLine"
+                android:inputType="text|textImeMultiLine|textMultiLine"
                 android:padding="10dp"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/lightGray"
+                android:imeOptions="actionDone"
                 android:textSize="19sp" />
+
 
 
             <LinearLayout
@@ -221,9 +223,8 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true"
-                    app:backgroundTint="@color/colorBackBlue"
-                    android:background="@drawable/btn_round_shape" />
+                    android:background="@drawable/btn_round_shape"
+                    app:backgroundTint="@color/colorBackBlue" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/idBtnTranslation"

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -60,14 +61,15 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_take_image_open_camera:
-                /*ImagePicker.Companion.with(this).start(101);*/
-                Intent i = new Intent();
+                ImagePicker.Companion.with(this).start(101);
+               /* Intent i = new Intent();
                 i.setType("image/");
                 i.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(i, "select Image"), 101);
-                break;
+               */ break;
 
             case R.id.iv_take_Image_back:
+                startActivity(new Intent(getApplicationContext(),TextToSpeechActivity.class));
                 finish();
                 break;
 
@@ -110,5 +112,12 @@ public class TakeImageActivity extends AppCompatActivity implements View.OnClick
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),TextToSpeechActivity.class));
+        finish();
+        super.onBackPressed();
     }
 }
